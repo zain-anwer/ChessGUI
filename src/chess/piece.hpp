@@ -10,12 +10,16 @@ Notes:
 #ifndef PIECE_HPP 
 #define PIECE_HPP
 
-#include<SDL2/SDL.h>
-#include"ChessInterface/chess_interface.hpp"
-#include<iostream>
+#include <SDL2/SDL.h>
+#include "../engine/chess_interface.hpp"
+#include <iostream>
 
-string images[2][6] = {"../../Chess_Piece_Images/King-W.bmp","../../Chess_Piece_Images/Queen-W.bmp","../../Chess_Piece_Images/Rook-W.bmp","../../Chess_Piece_Images/Bishop-W.bmp","../../Chess_Piece_Images/Knight-W.bmp","../../Chess_Piece_Images/Pawn-W.bmp"
-				,"../../Chess_Piece_Images/King-B.bmp","../../Chess_Piece_Images/Queen-B.bmp","../../Chess_Piece_Images/Rook-B.bmp","../../Chess_Piece_Images/Bishop-B.bmp","../../Chess_Piece_Images/Knight-B.bmp","../../Chess_Piece_Images/Pawn-B.bmp"};
+string images[2][6] = {"../../ChessPieceImages/King-W.bmp","../../ChessPieceImages/Queen-W.bmp",
+	"../../ChessPieceImages/Rook-W.bmp","../../ChessPieceImages/Bishop-W.bmp",
+	"../../ChessPieceImages/Knight-W.bmp","../../ChessPieceImages/Pawn-W.bmp",
+	"../../ChessPieceImages/King-B.bmp","../../ChessPieceImages/Queen-B.bmp",
+	"../../ChessPieceImages/Rook-B.bmp","../../ChessPieceImages/Bishop-B.bmp",
+	"../../ChessPieceImages/Knight-B.bmp","../../ChessPieceImages/Pawn-B.bmp"};
 string c[2] = {"White","Black"};
 
 class ChessPiece
