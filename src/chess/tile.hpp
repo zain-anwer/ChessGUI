@@ -9,7 +9,7 @@ class Tile
 	public:
 		SDL_Rect square;
 		ChessPiece* piece;
-		int click;
+		int colour;
 	public:
 		Tile();
         ~Tile();

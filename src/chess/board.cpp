@@ -73,11 +73,11 @@ void Board::drawBoard(SDL_Renderer* renderer)
         {
             if ((i + j) % 2 == 0)
             {
-                if (tiles[i][j].click == SELECT)
+                if (tiles[i][j].colour == SELECT)
                     SDL_SetRenderDrawColor(renderer, 130, 255, 130, SDL_ALPHA_TRANSPARENT);
-                else if (tiles[i][j].click == DANGER)
+                else if (tiles[i][j].colour == DANGER)
                     SDL_SetRenderDrawColor(renderer, 255, 130, 130, SDL_ALPHA_TRANSPARENT);
-                else if (tiles[i][j].click == CHECK)
+                else if (tiles[i][j].colour == CHECK)
                     SDL_SetRenderDrawColor(renderer, 140, 10, 10, SDL_ALPHA_OPAQUE);
                 else
                     SDL_SetRenderDrawColor(renderer, 200, 200, 200, SDL_ALPHA_OPAQUE);
@@ -86,17 +86,17 @@ void Board::drawBoard(SDL_Renderer* renderer)
             }
             else
             {
-                if (tiles[i][j].click == SELECT)
+                if (tiles[i][j].colour == SELECT)
                 {
                     SDL_SetRenderDrawColor(renderer, 130, 255, 130, SDL_ALPHA_TRANSPARENT);
                     SDL_RenderFillRect(renderer, &(tiles[i][j].square));
                 }
-                else if (tiles[i][j].click == DANGER)
+                else if (tiles[i][j].colour == DANGER)
                 {
                     SDL_SetRenderDrawColor(renderer, 255, 130, 130, SDL_ALPHA_TRANSPARENT);
                     SDL_RenderFillRect(renderer, &(tiles[i][j].square));
                 }
-                else if (tiles[i][j].click == CHECK)
+                else if (tiles[i][j].colour == CHECK)
                 {
                     SDL_SetRenderDrawColor(renderer, 140, 10, 10, SDL_ALPHA_OPAQUE);
                     SDL_RenderFillRect(renderer, &(tiles[i][j].square));

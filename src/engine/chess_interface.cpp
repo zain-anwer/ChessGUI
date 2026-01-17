@@ -4,14 +4,50 @@
 
 #include "chess_interface.hpp"
 
+ChessInterface::ChessInterface()
+{   turn = WHITE;   }
+
 string ChessInterface::play_move(string cur_move)
 {
     total_moves.push_back(cur_move);
+    
+    // toggling the info variable to maintain accurate game state info
+
+    if (turn == WHITE)
+        turn = BLACK;
+    else
+        turn == WHITE;
+    
     return chess_engine.play_move(total_moves);
 }
 
 vector<string> ChessInterface::list_legal_moves()
 {    return chess_engine.list_legal_moves();    }
+
+bool ChessInterface::check()
+{   return chess_engine.check();    }
+
+bool ChessInterface::checkmate()
+{
+    vector<string> legal_moves = list_legal_moves();
+    if (legal_moves.empty())
+    {
+        if (chess_engine.check())
+            return true;
+    }
+    return false;
+}
+
+bool ChessInterface::stalemate()
+{
+    vector<string> legal_moves = list_legal_moves();
+    if (legal_moves.empty())
+    {
+        if (!chess_engine.check())
+            return true;
+    }
+    return false;
+}
 
 string ChessInterface::get_eval_score()
 {
@@ -27,12 +63,12 @@ string ChessInterface::get_eval_score()
     return "check";
 }
 
-void ChessInterface::add_captured_piece(string name, string color)
+void ChessInterface::add_captured_piece(string name, int color)
 {
     ofstream f_out;
 
-    if (color == "White") f_out.open("white_pieces.txt");
-    else if (color == "Black") f_out.open("black_pieces.txt");
+    if (color == WHITE) f_out.open("white_pieces.txt");
+    else if (color == BLACK) f_out.open("black_pieces.txt");
     else throw "Invalid Piece Color!";
 
     f_out << name << endl;

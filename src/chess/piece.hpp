@@ -20,12 +20,11 @@ string images[2][6] = {"../../ChessPieceImages/King-W.bmp","../../ChessPieceImag
 	"../../ChessPieceImages/King-B.bmp","../../ChessPieceImages/Queen-B.bmp",
 	"../../ChessPieceImages/Rook-B.bmp","../../ChessPieceImages/Bishop-B.bmp",
 	"../../ChessPieceImages/Knight-B.bmp","../../ChessPieceImages/Pawn-B.bmp"};
-string c[2] = {"White","Black"};
 
 class ChessPiece
 {
 	public:
-        string colour;
+        int colour;
         string name;
         SDL_Surface* image;
         SDL_Texture* texture;
@@ -35,7 +34,7 @@ class ChessPiece
 
 	public:
 
-        ChessPiece(string colour,string name,string image_name, float value);
+        ChessPiece(int colour,string name,string image_name, float value);
         void virtual initialization() = 0; 
         void operator=(ChessPiece& c);
         virtual ~ChessPiece();
@@ -46,61 +45,43 @@ class Pawn : public ChessPiece
 	protected:
 	    bool firstMovePlayed;
 	public:
-	Pawn(int type):ChessPiece(c[type],"Pawn",images[type][5],1){}
-	void initialization()
-	{
-		cout << colour << " pawn initialized" << endl;
-	}
+	Pawn(int type):ChessPiece(type,"Pawn",images[type][5],1){}
+	void initialization();
 };
 
 class Knight : public ChessPiece
 {
 	public:
-	Knight(int type):ChessPiece(c[type],"Knight",images[type][4],3){}
-	void initialization()
-	{
-		cout << colour << " knight initialized" << endl;
-	}
+	Knight(int type):ChessPiece(type,"Knight",images[type][4],3){}
+	void initialization();
 };
 
 class Bishop : public ChessPiece
 {
 	public:
-	Bishop(int type):ChessPiece(c[type],"Bishop",images[type][3],3.5){}
-	void initialization()
-	{
-		cout << colour << " bishop initialized" << endl;
-	}
+	Bishop(int type):ChessPiece(type,"Bishop",images[type][3],3.5){}
+	void initialization();
 };
 
 class Rook : public ChessPiece
 {
 	public:
-	Rook(int type):ChessPiece(c[type],"Rook",images[type][2],5){}
-	void initialization()
-	{
-		cout << colour << " rook initialized" << endl;
-	}
+	Rook(int type):ChessPiece(type,"Rook",images[type][2],5){}
+	void initialization();
 };
 
 class Queen : public ChessPiece
 {
 	public:
-	Queen(int type):ChessPiece(c[type],"Queen",images[type][1],9){}
-	void initialization()
-	{
-		cout << colour << "  queen initialized" << endl;
-	}
+	Queen(int type):ChessPiece(type,"Queen",images[type][1],9){}
+	void initialization();
 };
 
 class King : public ChessPiece
 {
 	public:
-	King(int type):ChessPiece(c[type],"King",images[type][0],100){}
-	void initialization()
-	{
-		cout << colour << " king initialized" << endl;
-	}
+	King(int type):ChessPiece(type,"King",images[type][0],100){}
+	void initialization();
 };
 
 #endif

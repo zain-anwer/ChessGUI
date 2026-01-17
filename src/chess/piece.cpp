@@ -1,6 +1,6 @@
 #include "piece.hpp"
 
-ChessPiece::ChessPiece(string colour,string name,string image_name, float value)
+ChessPiece::ChessPiece(int colour,string name,string image_name, float value)
 {
 	this->colour = colour;
 	this->name = name;
@@ -13,7 +13,7 @@ ChessPiece::ChessPiece(string colour,string name,string image_name, float value)
 
 void ChessPiece::operator=(ChessPiece& c)
 {
-	colour = c.name;
+	colour = c.colour;
 	name = c.name;
 	if (image != nullptr)
 	{
@@ -42,29 +42,29 @@ ChessPiece::~ChessPiece()
 	} 
 }
 
-Pawn::Pawn(int type):ChessPiece(c[type],"Pawn",images[type][5],1){}
+Pawn::Pawn(int type):ChessPiece(type,"Pawn",images[type][5],1){}
 	
 void Pawn::initialization()
 {	cout << colour << " pawn initialized" << endl;  }
 
-Knight::Knight(int type):ChessPiece(c[type],"Knight",images[type][4],3){}
+Knight::Knight(int type):ChessPiece(type,"Knight",images[type][4],3){}
 
 void Knight::initialization()
 {   cout << colour << " knight initialized" << endl;    }
 
-Bishop::Bishop(int type):ChessPiece(c[type],"Bishop",images[type][3],3.5){}
+Bishop::Bishop(int type):ChessPiece(type,"Bishop",images[type][3],3.5){}
 void Bishop::initialization()
 {   cout << colour << " bishop initialized" << endl;    }
 
-Rook::Rook(int type):ChessPiece(c[type],"Rook",images[type][2],5){}
+Rook::Rook(int type):ChessPiece(type,"Rook",images[type][2],5){}
 void Rook::initialization()
 {   cout << colour << " rook initialized" << endl;  }
 
 
-Queen::Queen(int type):ChessPiece(c[type],"Queen",images[type][1],9){}
+Queen::Queen(int type):ChessPiece(type,"Queen",images[type][1],9){}
 void Queen::initialization()
 {   cout << colour << "  queen initialized" << endl;    }
 
-King::King(int type):ChessPiece(c[type],"King",images[type][0],100){}
+King::King(int type):ChessPiece(type,"King",images[type][0],100){}
 void King::initialization()
 {   cout << colour << " king initialized" << endl;  }

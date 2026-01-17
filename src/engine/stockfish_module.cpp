@@ -74,6 +74,30 @@ vector<string> Stockfish::list_legal_moves(){
     return legal_moves;
 }
 
+// the d input will trigger response that will list Checkers: ...
+// if the line stops at colon then there are no checkers hence king is not in check
+
+bool Stockfish::check()
+{
+    stock_in << "d" << endl;
+    string res;
+
+    while(getline(stock_out,res))
+    {
+        if (!res.compare(0,9,"Checkers:"))
+        {
+            if (res.size() > 9)
+                return true;
+            else
+                return false;
+        }
+        if (res.empty())
+            break;
+
+    }
+    return false;
+}
+
 string Stockfish::get_eval_score(){
     
     string line, eval_string;

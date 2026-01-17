@@ -12,7 +12,6 @@
 
 #include <SDL2/SDL.h>
 #include "tile.hpp"
-#include "../engine/dynamics.hpp"
 
 class Board {
 

@@ -6,18 +6,29 @@
 
 using namespace std;
 
+#define BLACK 0
+#define WHITE 1
+
 class ChessInterface {
     
     vector<string> total_moves;
     Stockfish chess_engine;
 
 public:
+    
+    int turn;
+
+public:
    
+    ChessInterface();
     string play_move(string cur_move);
     vector<string> list_legal_moves();
     string get_eval_score();
+    bool check();
+    bool stalemate();
+    bool checkmate();
 
-    void add_captured_piece(string name, string color);
+    void add_captured_piece(string name, int color);
     vector<string> read_captured_pieces(string color);
 
     template <typename Game>
