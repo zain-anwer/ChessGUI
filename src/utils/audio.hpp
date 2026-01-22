@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-char sound_name[3][35] = {"../../ChessAudio/move.wav","../../ChessAudio/capture.wav","../../ChessAudio/illegal.wav"};
+extern const char* sound_name[5];
 
 class Audio
 {

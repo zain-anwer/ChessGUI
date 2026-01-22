@@ -1,5 +1,20 @@
 #include "piece.hpp"
 
+string images[2][6] = {
+	{"ChessPieceImages/King-B.bmp",
+     "ChessPieceImages/Queen-B.bmp",
+     "ChessPieceImages/Rook-B.bmp",
+     "ChessPieceImages/Bishop-B.bmp",
+     "ChessPieceImages/Knight-B.bmp",
+     "ChessPieceImages/Pawn-B.bmp"},
+    {"ChessPieceImages/King-W.bmp",
+     "ChessPieceImages/Queen-W.bmp",
+     "ChessPieceImages/Rook-W.bmp",
+     "ChessPieceImages/Bishop-W.bmp",
+     "ChessPieceImages/Knight-W.bmp",
+     "ChessPieceImages/Pawn-W.bmp"}
+};
+
 ChessPiece::ChessPiece(int colour,string name,string image_name, float value)
 {
 	this->colour = colour;
@@ -35,11 +50,6 @@ ChessPiece::~ChessPiece()
 	if (image != nullptr){ SDL_FreeSurface(image); image = nullptr; } 
 
 	if (texture != nullptr){ SDL_DestroyTexture(texture); texture = nullptr; }
-
-	if (endGame == false)
-	{
- 		interface->add_captured_piece(name,colour);
-	} 
 }
 
 Pawn::Pawn(int type):ChessPiece(type,"Pawn",images[type][5],1){}

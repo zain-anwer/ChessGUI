@@ -16,7 +16,23 @@ namespace bp = boost::process;
 Stockfish::Stockfish()
 {
     program = new bp::child("stockfish", bp::std_in < stock_in, bp::std_out > stock_out);
-    stock_in << "uci\nisready\nposition startpos\n";
+
+    stock_in << "uci" << endl;
+
+    string line;
+ 
+    while (getline(stock_out, line)) {
+        if (line == "uciok") break;
+    }
+
+    stock_in << "isready" << endl;
+ 
+    while (getline(stock_out, line)) {
+        if (line == "readyok") break;
+    }
+
+    stock_in << "position startpos" << endl;
+    cout << "Stockfish engine initialized" << endl;
 }
 
 string Stockfish::play_move(vector<string> move_vector)
@@ -79,14 +95,18 @@ vector<string> Stockfish::list_legal_moves(){
 
 bool Stockfish::check()
 {
+    // flushing the output stream to get rid of any remaining output
+    stock_out.clear();
+
     stock_in << "d" << endl;
+    stock_in.flush(); 
     string res;
 
     while(getline(stock_out,res))
     {
         if (!res.compare(0,9,"Checkers:"))
         {
-            if (res.size() > 9)
+            if (res.size() > 10)
                 return true;
             else
                 return false;
@@ -113,7 +133,7 @@ string Stockfish::get_eval_score(){
     
     boost::split(eval_vector, eval_string, boost::is_any_of(" "));
 
-    for (auto i=0; i<eval_vector.size(); i++)
+    for (auto i = 0; i < eval_vector.size(); i++)
         if (eval_vector.at(i) == "")
             eval_vector.erase(eval_vector.begin() + i--);
 

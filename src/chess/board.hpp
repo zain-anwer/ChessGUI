@@ -1,7 +1,6 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-
 #define NORMAL 0
 #define SELECT 1
 #define DANGER 2
@@ -23,8 +22,9 @@ class Board {
 	
     public:
 		
-    	Board(ChessInterface* interface);
+    	Board();
 	    void drawBoard(SDL_Renderer* renderer);
+        void resetTileColours();
 };
 
 #endif 

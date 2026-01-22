@@ -1,14 +1,21 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iostream>
+
+using namespace std;
 
 #include "chess_interface.hpp"
 
 ChessInterface::ChessInterface()
-{   turn = WHITE;   }
+{
+    cout << "Interface Initialized\n";   
+    turn = WHITE;   
+}
 
 string ChessInterface::play_move(string cur_move)
 {
+    cout << "Moved played " << cur_move << " \n"; 
     total_moves.push_back(cur_move);
     
     // toggling the info variable to maintain accurate game state info
@@ -16,7 +23,7 @@ string ChessInterface::play_move(string cur_move)
     if (turn == WHITE)
         turn = BLACK;
     else
-        turn == WHITE;
+        turn = WHITE;
     
     return chess_engine.play_move(total_moves);
 }

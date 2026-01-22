@@ -1,6 +1,6 @@
 #include "board.hpp"
 
-Board::Board(ChessInterface* interface)
+Board::Board()
 {
     int side = 0;
     for (int i = 0; i < 8; i++)
@@ -8,9 +8,9 @@ Board::Board(ChessInterface* interface)
         for (int j = 0; j < 8; j++)
         {
             if (i == 0 || i == 1)
-                side = WHITE;
-            else if (i == 6 || i == 7)
                 side = BLACK;
+            else if (i == 6 || i == 7)
+                side = WHITE;
 
             if (i == 0 || i == 7)
             {
@@ -42,24 +42,32 @@ Board::Board(ChessInterface* interface)
 
             tiles[i][j].square.w = 50;
             tiles[i][j].square.h = 50;
+            tiles[i][j].picture_square.w = 50 * 0.8;
+            tiles[i][j].picture_square.h = 50 * 0.8;
         }
     }
 
     x_pos = (640 / 2) - (4 * 50);
     y_pos = (480 / 2) - (4 * 50);
+    int x_p_pos = x_pos * 1.05;
+    int y_p_pos = y_pos * 1.1;
+
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
             tiles[i][j].square.x = x_pos;
-            x_pos += 50;
             tiles[i][j].square.y = y_pos;
+            tiles[i][j].picture_square.x = x_p_pos;
+            tiles[i][j].picture_square.y = y_p_pos;
+            x_pos += 50;
+            x_p_pos += 50;
         }
         y_pos += 50;
+        y_p_pos += 50;
         x_pos = (640 / 2) - (4 * 50);
+        x_p_pos = x_pos * 1.05;
     }
-
-    tiles[0][0].piece->interface = interface;
 }
 
 void Board::drawBoard(SDL_Renderer* renderer)
@@ -111,9 +119,11 @@ void Board::drawBoard(SDL_Renderer* renderer)
             if (tiles[i][j].piece != nullptr && tiles[i][j].piece->image != nullptr)
             {
                 if (tiles[i][j].piece->texture == nullptr)
+                {
                     tiles[i][j].piece->texture = SDL_CreateTextureFromSurface(renderer, tiles[i][j].piece->image);
-
-                SDL_RenderCopy(renderer, tiles[i][j].piece->texture, NULL, &(tiles[i][j].square));
+                    SDL_SetTextureScaleMode(tiles[i][j].piece->texture, SDL_ScaleModeLinear);
+                }
+                SDL_RenderCopy(renderer, tiles[i][j].piece->texture, NULL, &(tiles[i][j].picture_square));
                 SDL_DestroyTexture(tiles[i][j].piece->texture);
                 tiles[i][j].piece->texture = nullptr;
             }
@@ -121,4 +131,11 @@ void Board::drawBoard(SDL_Renderer* renderer)
     }
 
     SDL_RenderPresent(renderer);
+}
+
+void Board::resetTileColours()
+{
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            tiles[i][j].colour = NORMAL;
 }

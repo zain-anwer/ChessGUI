@@ -2,6 +2,7 @@
 
 Dynamics::Dynamics(ChessInterface *interface)
 {
+    cout << "Dynamics Initialized\n";
     src_i = -1;
     src_j = -1;
     dest_i = -1;
@@ -10,13 +11,16 @@ Dynamics::Dynamics(ChessInterface *interface)
     this->interface = interface;
 }
 
+// -1 for source selection
 // 0 for invalid
-// 1 for valid
-// 2 for checkmate
-// 3 for stalemate
+// 1 for valid_move
+// 2 for valid_capture
+// 3 for checkmate
+// 4 for stalemate
 
 int Dynamics::select(SDL_Point *p, Board &B)
 {
+    cout << "Within the select function now\n";
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -24,17 +28,22 @@ int Dynamics::select(SDL_Point *p, Board &B)
             if (SDL_PointInRect(p, &B.tiles[i][j].square) == true)
             {
                 // source selection
-                if (src_i < 0 && src_j < 0)
-                {
 
+                cout << "src_i: " << this->src_i << ", src_j: " << this->src_j << endl;
+                if (this->src_i == -1 && this->src_j == -1)
+                {
+                    cout << "selecting source\n";
+                    
                     if (B.tiles[i][j].piece == nullptr)
                         return INVALID_CHOICE;
 
                     if (B.tiles[i][j].piece->colour != interface->turn)
                         return INVALID_CHOICE;
 
-                    src_i = i;
-                    src_j = j;
+                    this->src_i = i;
+                    this->src_j = j;
+
+                    cout << "SET TO: src_i = " << src_i << " src_j = " << src_j << " ( i = " << i << " j = " << j << ")" << endl;
 
                     // colouring tiles upon selection
 
@@ -52,21 +61,42 @@ int Dynamics::select(SDL_Point *p, Board &B)
                                 B.tiles[d_i][d_j].colour = DANGER;
                         }
                     }
+                    return SOURCE_SELECTION;
                 }
 
                 // destination selection
 
                 else
                 {
+                    cout << "selecting destination\n";
+
+                    // set tile colours to normal
+                    // this also helps maintain the check colour
+                    // furthermore it helps to signal switching the piece to move 
+
+                    B.resetTileColours();
+
                     dest_i = i;
                     dest_j = j;
 
-                    if (!validate(B))
+                    if (!validate())
                     {
                         dest_i = -1;
                         dest_j = -1;
+                        src_i = -1;
+                        src_j = -1;
                         return INVALID_CHOICE;
                     }
+
+                    // to identify whether its a capture or a simple move
+                    
+                    bool is_move = false;
+                    bool is_capture = false;
+
+                    if (B.tiles[dest_i][dest_j].piece == nullptr)
+                        is_move = true;
+                    else 
+                        is_capture = true;
 
                     string uci_string = move(B);
                     interface->play_move(uci_string);
@@ -92,9 +122,12 @@ int Dynamics::select(SDL_Point *p, Board &B)
                         }
                     }
 
-                    flipBoard(B);
+                    if (is_move)
+                        return VALID_MOVE;
+                    
+                    if (is_capture)
+                        return VALID_CAPTURE;
                 }
-                return VALID_CHOICE;
             }
         }
     }
@@ -118,7 +151,7 @@ string Dynamics::convert()
     return cur_move;
 }
 
-bool Dynamics::validate(Board &B)
+bool Dynamics::validate()
 {
     string cur_move = "xxxx";
     cur_move[1] = ('8' - src_i);
@@ -181,7 +214,7 @@ string Dynamics::move(Board &B)
 
     // handling pawn promotion
 
-    else if (B.tiles[src_i][src_j].piece == nullptr && B.tiles[src_i][src_j].piece->name == "Pawn" && (dest_i == 0 || dest_i == 7))
+    else if (B.tiles[src_i][src_j].piece != nullptr && B.tiles[src_i][src_j].piece->name == "Pawn" && (dest_i == 0 || dest_i == 7))
     {
 
         int type = (B.tiles[src_i][src_j].piece->colour == WHITE) ? 0 : 1;
@@ -226,6 +259,7 @@ bool Dynamics::check(Board &B)
 {
     if (!interface->check())
         return false;
+    cout << "Kings in check right now";
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -242,14 +276,14 @@ bool Dynamics::check(Board &B)
 
 void Dynamics::flipBoard(Board &B)
 {
-    SDL_Rect temp;
+    Tile temp;
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            temp = B.tiles[i][j].square;
-            B.tiles[i][j].square = B.tiles[7 - i][7 - j].square;
-            B.tiles[7 - i][7 - j].square = temp;
+            temp = B.tiles[i][j];
+            B.tiles[i][j] = B.tiles[7 - i][7 - j];
+            B.tiles[7 - i][7 - j] = temp;
         }
     }
 }

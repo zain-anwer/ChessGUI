@@ -2,6 +2,14 @@
 #include <iostream>
 using namespace std;
 
+const char* sound_name[5] = {
+    "ChessAudio/illegal.wav",
+    "ChessAudio/move.wav",
+    "ChessAudio/capture.wav",
+    "ChessAudio/capture.wav",
+    "ChessAudio/capture.wav"
+};
+
 void Audio::playSound (int type)
 {
 	if (type < 0 || type > 2)

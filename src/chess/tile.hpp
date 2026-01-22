@@ -8,6 +8,7 @@ class Tile
 {
 	public:
 		SDL_Rect square;
+		SDL_Rect picture_square;
 		ChessPiece* piece;
 		int colour;
 	public:
