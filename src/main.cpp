@@ -4,6 +4,8 @@
 #include "utils/audio.hpp"
 #include "chess/dynamics.hpp"
 
+#define SOUND_DELAY 25
+
 using namespace std;
 
 int main()
@@ -34,6 +36,11 @@ int main()
 
 	SDL_Point p;
 
+	int sound_timer = 0;
+	int select_result = 0;
+	bool sound_timer_started = false;
+
+
 	while(running)
 	{
 		SDL_Event event;
@@ -51,19 +58,35 @@ int main()
 			{
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
+					sound_timer_started = true;
 					cout << "Click Detected\n";
 
 					SDL_GetMouseState(&p.x,&p.y);
 
-					int	select_result = D.select(&p,B1);
+					select_result = D.select(&p,B1);
 					
-					//if (select_result == VALID_MOVE || select_result == VALID_CAPTURE)
-					//	D.flipBoard(B1);
-
-					audio.playSound(select_result);
+					if (select_result == VALID_MOVE || select_result == VALID_CAPTURE)
+						D.flipBoard(B1);
 				}
 			}				
 		}
+
+		if (select_result == SOURCE_SELECTION)
+		{
+			sound_timer_started = false;
+			sound_timer = 0;
+		}
+
+		if (sound_timer_started)
+			sound_timer++;
+
+		if (select_result != SOURCE_SELECTION && sound_timer > SOUND_DELAY)
+		{
+			sound_timer_started = false;
+			sound_timer = 0;
+			audio.playSound(select_result);
+		}
+
 		B1.drawBoard(renderer);
 	}
 		

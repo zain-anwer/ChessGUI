@@ -276,14 +276,17 @@ bool Dynamics::check(Board &B)
 
 void Dynamics::flipBoard(Board &B)
 {
-    Tile temp;
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            temp = B.tiles[i][j];
-            B.tiles[i][j] = B.tiles[7 - i][7 - j];
-            B.tiles[7 - i][7 - j] = temp;
+            auto temp_1 = B.tiles[i][j].square;
+            B.tiles[i][j].square = B.tiles[7 - i][7 - j].square;
+            B.tiles[7 - i][7 - j].square = temp_1;
+
+            auto temp_2 = B.tiles[i][j].picture_square;
+            B.tiles[i][j].picture_square = B.tiles[7 - i][7 - j].picture_square;
+            B.tiles[7 - i][7 - j].picture_square = temp_2;
         }
     }
 }

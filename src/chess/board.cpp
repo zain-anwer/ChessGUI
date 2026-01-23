@@ -124,8 +124,6 @@ void Board::drawBoard(SDL_Renderer* renderer)
                     SDL_SetTextureScaleMode(tiles[i][j].piece->texture, SDL_ScaleModeLinear);
                 }
                 SDL_RenderCopy(renderer, tiles[i][j].piece->texture, NULL, &(tiles[i][j].picture_square));
-                SDL_DestroyTexture(tiles[i][j].piece->texture);
-                tiles[i][j].piece->texture = nullptr;
             }
         }
     }
