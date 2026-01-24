@@ -40,17 +40,23 @@ Board::Board()
                 tiles[i][j].piece = nullptr;
             }
 
-            tiles[i][j].square.w = 50;
-            tiles[i][j].square.h = 50;
-            tiles[i][j].picture_square.w = 50 * 0.8;
-            tiles[i][j].picture_square.h = 50 * 0.8;
+            tiles[i][j].square.w = 60;
+            tiles[i][j].square.h = 60;
+           /*
+            tiles[i][j].picture_square.w = 60 * 0.8;
+            tiles[i][j].picture_square.h = 60 * 0.8;
+           */
         }
     }
 
-    x_pos = (640 / 2) - (4 * 50);
-    y_pos = (480 / 2) - (4 * 50);
+    int x_pos = (800 / 2) - (4 * 60);
+    int y_pos = (600 / 2) - (4 * 60);
+  
+    
+/*
     int x_p_pos = x_pos * 1.05;
     int y_p_pos = y_pos * 1.1;
+*/
 
     for (int i = 0; i < 8; i++)
     {
@@ -58,22 +64,42 @@ Board::Board()
         {
             tiles[i][j].square.x = x_pos;
             tiles[i][j].square.y = y_pos;
-            tiles[i][j].picture_square.x = x_p_pos;
-            tiles[i][j].picture_square.y = y_p_pos;
-            x_pos += 50;
-            x_p_pos += 50;
+            /*
+            tiles[i][j].picture_square.x =
+            tiles[i][j].square.x + (tiles[i][j].square.w - tiles[i][j].picture_square.w) / 2;
+
+            tiles[i][j].picture_square.y =
+            tiles[i][j].square.y + (tiles[i][j].square.h - tiles[i][j].picture_square.h) / 2;
+            */
+            x_pos += 60;
         }
-        y_pos += 50;
-        y_p_pos += 50;
-        x_pos = (640 / 2) - (4 * 50);
-        x_p_pos = x_pos * 1.05;
+        y_pos += 60;
+        x_pos = (800 / 2) - (4 * 60);
     }
 }
 
 void Board::drawBoard(SDL_Renderer* renderer)
 {
-    SDL_SetRenderDrawColor(renderer, 0, 56, 32, SDL_ALPHA_OPAQUE);
+    SDL_Rect border;
+    border.x = (800 / 2) - (4 * 60) - 15;
+    border.y = (600 / 2) - (4 * 60) - 15;
+    border.w = 60 * 8 + 30;
+    border.h = 60 * 8 + 30;
+
+    SDL_SetRenderDrawColor(renderer,149,83,59, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
+
+    SDL_SetRenderDrawColor(renderer,60,60,60, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(renderer,&border);
+
+    SDL_Rect inner_board;
+    inner_board.x = (800 / 2) - (4 * 60);
+    inner_board.y = (600 / 2) - (4 * 60);
+    inner_board.w = 60 * 8;
+    inner_board.h = 60 * 8;
+
+    SDL_SetRenderDrawColor(renderer,149,83,59, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(renderer,&inner_board);
 
     for (int i = 0; i < 8; i++)
     {
@@ -88,7 +114,7 @@ void Board::drawBoard(SDL_Renderer* renderer)
                 else if (tiles[i][j].colour == CHECK)
                     SDL_SetRenderDrawColor(renderer, 140, 10, 10, SDL_ALPHA_OPAQUE);
                 else
-                    SDL_SetRenderDrawColor(renderer, 200, 200, 200, SDL_ALPHA_OPAQUE);
+                    SDL_SetRenderDrawColor(renderer,251,194,115, SDL_ALPHA_OPAQUE);
 
                 SDL_RenderFillRect(renderer, &(tiles[i][j].square));
             }
@@ -111,7 +137,7 @@ void Board::drawBoard(SDL_Renderer* renderer)
                 }
                 else
                 {
-                    SDL_SetRenderDrawColor(renderer, 200, 200, 200, SDL_ALPHA_OPAQUE);
+                    SDL_SetRenderDrawColor(renderer,251,194,115, SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawRect(renderer, &(tiles[i][j].square));
                 }
             }
@@ -123,7 +149,7 @@ void Board::drawBoard(SDL_Renderer* renderer)
                     tiles[i][j].piece->texture = SDL_CreateTextureFromSurface(renderer, tiles[i][j].piece->image);
                     SDL_SetTextureScaleMode(tiles[i][j].piece->texture, SDL_ScaleModeLinear);
                 }
-                SDL_RenderCopy(renderer, tiles[i][j].piece->texture, NULL, &(tiles[i][j].picture_square));
+                SDL_RenderCopy(renderer, tiles[i][j].piece->texture, NULL, &(tiles[i][j].square));
             }
         }
     }

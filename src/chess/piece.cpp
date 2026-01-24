@@ -7,7 +7,7 @@ string images[2][6] = {
      "ChessPieceImages/Bishop-B.bmp",
      "ChessPieceImages/Knight-B.bmp",
      "ChessPieceImages/Pawn-B.bmp"},
-    {"ChessPieceImages/King-W.bmp",
+	{"ChessPieceImages/King-W.bmp",
      "ChessPieceImages/Queen-W.bmp",
      "ChessPieceImages/Rook-W.bmp",
      "ChessPieceImages/Bishop-W.bmp",

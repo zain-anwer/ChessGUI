@@ -14,12 +14,9 @@
 
 class Board {
 
-	public:
-
+    public:
         Tile tiles[8][8];
-        int x_pos;
-        int y_pos;
-	
+    
     public:
 		
     	Board();

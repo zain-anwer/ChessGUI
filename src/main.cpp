@@ -22,7 +22,7 @@ int main()
 	
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-	window = SDL_CreateWindow("-- Chess --",0,0,640,480,SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("-- Chess --",0,0,800,600,SDL_WINDOW_SHOWN);
 
 	renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	

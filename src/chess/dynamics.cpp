@@ -95,8 +95,13 @@ int Dynamics::select(SDL_Point *p, Board &B)
 
                     if (B.tiles[dest_i][dest_j].piece == nullptr)
                         is_move = true;
-                    else 
+                    else
+                    {
+                        int colour = B.tiles[dest_i][dest_j].piece->colour;
+                        string name = B.tiles[dest_i][dest_j].piece->name;
+                        interface->add_captured_piece(name,colour); 
                         is_capture = true;
+                    }
 
                     string uci_string = move(B);
                     interface->play_move(uci_string);
@@ -283,10 +288,11 @@ void Dynamics::flipBoard(Board &B)
             auto temp_1 = B.tiles[i][j].square;
             B.tiles[i][j].square = B.tiles[7 - i][7 - j].square;
             B.tiles[7 - i][7 - j].square = temp_1;
-
+/*
             auto temp_2 = B.tiles[i][j].picture_square;
             B.tiles[i][j].picture_square = B.tiles[7 - i][7 - j].picture_square;
             B.tiles[7 - i][7 - j].picture_square = temp_2;
+*/
         }
     }
 }
